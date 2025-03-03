@@ -2,6 +2,7 @@ import { command } from 'clide-js';
 import { createWriteStream, writeFileSync, WriteStream } from 'node:fs';
 import { createServer, request } from 'node:http';
 import { config } from 'src/config';
+import { parsers } from 'src/parsers';
 
 const { host, port, proxyPort } = config.data();
 
@@ -43,7 +44,7 @@ export default command({
       alias: ['logs-file'],
       type: 'string',
       description: 'The file to save logs to',
-      default: `requests.log`,
+      default: 'requests.log',
     },
     c: {
       alias: ['clear'],
@@ -51,25 +52,30 @@ export default command({
       description: 'Clear the log file before starting the server',
       default: false,
     },
+    b: {
+      alias: ['body', 'body-parser'],
+      type: 'string',
+      description:
+        'The parser to use for the request body. Supported parsers: json, urlencoded, abi',
+      default: 'json',
+      required: true,
+    },
   },
 
   async handler({ options }) {
-    // Options //
+    // Logger //
 
-    const host = await options.host();
-    const port = await options.port();
-    const proxyPort = await options.proxyPort();
-    const saveLogs = await options.saveLogs();
+    const saveLogs = await options.saveLogs({
+      prompt: 'Save logs to a file?',
+    });
     const logsDir = await options.logsDir();
     const logsFile = await options.logsFile();
     const clear = await options.clear();
-
-    // Logger //
-
-    const logPath = `${logsDir}/${logsFile}`;
+    const logPath = `${logsDir}/${logsFile}`.replace(/(\.log)?$/i, '.log');
     let logStream: WriteStream | undefined;
 
     if (saveLogs) {
+      console.log(`Logging requests to: ${logPath}`);
       if (clear) writeFileSync(logPath, '');
       logStream = createWriteStream(logPath, {
         flags: 'a', // Append mode
@@ -84,14 +90,33 @@ export default command({
       console.log(logLine);
     }
 
+    // Body parser
+
+    const parserType = await options.body({
+      prompt: {
+        message: 'Choose a request parser',
+        type: 'select',
+        choices: Object.keys(parsers).map((name) => ({
+          title: name,
+          value: name,
+        })),
+      },
+    });
+    let parser = parsers[parserType];
+
     // Server //
+
+    const host = await options.host();
+    const port = await options.port();
+    const proxyPort = await options.proxyPort();
 
     const server = createServer((req, res) => {
       let body = '';
       req.on('data', (chunk) => (body += chunk));
       req.on('end', async () => {
         // Log the request
-        log('⬇ Request:', JSON.parse(body));
+        const parsedRequest = await parser.parse(body);
+        log('⬇ Request:', parsedRequest);
 
         // Forward the request to Anvil
         const proxyReq = request(
@@ -106,7 +131,10 @@ export default command({
             // Log the response
             let body = '';
             proxyRes.on('data', (chunk) => (body += chunk));
-            proxyRes.on('end', () => log('⬆ Response:', JSON.parse(body)));
+            proxyRes.on('end', async () => {
+              const parsedResponse = await parser.parse(body);
+              log('⬆ Response:', parsedResponse);
+            });
 
             // Send response back to client
             res.writeHead(proxyRes.statusCode || 200, proxyRes.headers);
@@ -124,8 +152,9 @@ export default command({
     });
 
     // Start server
+    await parser.init?.(`http://${host}:${port}`);
     server.listen(proxyPort, () =>
-      console.log(`Proxy server running at: ${`http://${host}:${proxyPort}`}`)
+      console.log(`Proxy server running at: http://${host}:${proxyPort}`)
     );
   },
 });

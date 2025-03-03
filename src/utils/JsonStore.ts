@@ -3,10 +3,10 @@ import type { JSONSchema } from 'json-schema-typed';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import type {
-  IfElse,
+  IfElse as IfElse,
   IsNever,
-  OptionalKeys,
-  RequiredKeys,
+  OptionalKey,
+  RequiredKey,
 } from 'src/utils/types';
 
 /**
@@ -43,7 +43,7 @@ export type JsonStoreOptions<T extends object = Record<string, unknown>> = {
    */
   schema?: JsonStoreSchema<T>;
 } & IfElse<
-  IsNever<RequiredKeys<T>>,
+  IsNever<RequiredKey<T>>,
   DefaultsOption<T>,
   Required<DefaultsOption<T>>
 >;
@@ -178,7 +178,7 @@ export class JsonStore<T extends object = Record<string, unknown>> {
    * @param keys - The keys of the entries to delete
    * @returns True if all entries were deleted, false otherwise
    */
-  delete(...keys: OptionalKeys<T>[]): boolean {
+  delete(...keys: OptionalKey<T>[]): boolean {
     const data = this.data();
 
     let didDeleteSome = false;
