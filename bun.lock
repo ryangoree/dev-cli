@@ -9,7 +9,7 @@
         "@delvtech/fixed-point-wasm": "^0.0.7",
         "@delvtech/hyperdrive-artifacts": "^1.0.20",
         "ajv": "^8.17.1",
-        "clide-js": "^0.2.11",
+        "clide-js": "^0.2.13",
         "clide-plugin-command-menu": "^0.1.1",
         "dotenv": "^16.4.7",
         "json-schema-typed": "^8.0.1",
@@ -107,7 +107,7 @@
 
     "cfonts": ["cfonts@3.3.0", "", { "dependencies": { "supports-color": "^8", "window-size": "^1" }, "bin": { "cfonts": "bin/index.js" } }, "sha512-RlVxeEw2FXWI5Bs9LD0/Ef3bsQIc9m6lK/DINN20HIW0Y0YHUO2jjy88cot9YKZITiRTCdWzTfLmTyx47HeSLA=="],
 
-    "clide-js": ["clide-js@0.2.11", "", { "dependencies": { "@types/prompts": "^2.4.9", "cliui": "^8.0.1", "prompts": "^2.4.2", "yargs-parser": "^21.1.1" } }, "sha512-z/P0mnePzuw9mUGCeBGFzkBlJ5eCgETUGAbYWqDEtCZd+r8+niqUOZ+vTJs+PfkUmNShtRtUQKZnhIiTAj5XUA=="],
+    "clide-js": ["clide-js@0.2.13", "", { "dependencies": { "@types/prompts": "^2.4.9", "cliui": "^8.0.1", "prompts": "^2.4.2", "yargs-parser": "^21.1.1" } }, "sha512-wPEwwTk4KZMtI/JG4kXao3J6RNiji8B9oxtt3Q+ruVc6kffLd0lqnZnl3cK1KaZ1oanwCPUfcaaXUW/IhB+kdA=="],
 
     "clide-plugin-command-menu": ["clide-plugin-command-menu@0.1.1", "", { "dependencies": { "cfonts": "^3.3.0", "colors": "^1.4.0" }, "peerDependencies": { "clide-js": "^0.2.3" } }, "sha512-/P+dLo7zE7LZk3qSn1WYF3rINODEio3GXJa20nq1eAwwZD3yUsQ1/ZF33Di173XDZnXOduYimAq3d0pRyWvUHQ=="],
 
