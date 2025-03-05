@@ -55,8 +55,8 @@ export default command({
     b: {
       alias: ['body', 'body-parser'],
       type: 'string',
-      description:
-        'The parser to use for the request body. Supported parsers: json, urlencoded, abi',
+      description: 'The parser to use for the request body.',
+      choices: Object.keys(parsers),
       default: 'json',
       required: true,
     },
@@ -93,14 +93,7 @@ export default command({
     // Body parser
 
     const parserType = await options.body({
-      prompt: {
-        message: 'Choose a request parser',
-        type: 'select',
-        choices: Object.keys(parsers).map((name) => ({
-          title: name,
-          value: name,
-        })),
-      },
+      prompt: 'Choose a request parser',
     });
     let parser = parsers[parserType];
 

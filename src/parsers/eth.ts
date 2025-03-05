@@ -88,13 +88,6 @@ export const ethParser: Parser = {
 
       case 'eth_getLogs': {
         const [{ address, topics }] = params;
-        const abi = await abiMap[chainId]?.[address]?.();
-        let parsedTopics: any = topics;
-        if (abi) {
-          parsedTopics = topics.map((topic) =>
-            decodeFunctionData({ abi, data: topic })
-          );
-        }
         responseHandlerMap.set(id, ({ id, result }) => {
           return { id, method, result };
         });
