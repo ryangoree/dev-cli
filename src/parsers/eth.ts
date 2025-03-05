@@ -29,12 +29,22 @@ export const ethParser: Parser = {
   },
 
   async parse(body: string): Promise<
-    Extended<{
-      id: number;
-      method?: OpenRpcRequest['method'];
-    }>
+    Extended<
+      | {
+          id: number;
+          method?: OpenRpcRequest['method'];
+        }
+      | {
+          body: string;
+        }
+    >
   > {
-    const payload = JSON.parse(body) as OpenRpcRequest;
+    let payload: OpenRpcRequest;
+    try {
+      payload = JSON.parse(body);
+    } catch (error) {
+      return { body: String(body) };
+    }
     const { id, method, result, params } = payload;
 
     if (result) {

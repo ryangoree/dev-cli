@@ -32,7 +32,13 @@ export default command({
       alias: ['save-logs'],
       type: 'boolean',
       description: 'Save logs to a file',
-      default: true,
+      default: false,
+    },
+    q: {
+      alias: ['quiet'],
+      type: 'boolean',
+      description: 'Quiet mode',
+      default: false,
     },
     d: {
       alias: ['logs-dir'],
@@ -57,7 +63,6 @@ export default command({
       type: 'string',
       description: 'The parser to use for the request body.',
       choices: Object.keys(parsers),
-      default: 'json',
       required: true,
     },
   },
@@ -65,9 +70,8 @@ export default command({
   async handler({ options }) {
     // Logger //
 
-    const saveLogs = await options.saveLogs({
-      prompt: 'Save logs to a file?',
-    });
+    const quiet = await options.quiet();
+    const saveLogs = await options.saveLogs();
     const logsDir = await options.logsDir();
     const logsFile = await options.logsFile();
     const clear = await options.clear();
@@ -87,14 +91,12 @@ export default command({
       const message = formatArgs(...args);
       const logLine = `[${timestamp}] ${message}\n`;
       if (logStream) logStream.write(logLine);
-      console.log(logLine);
+      if (!quiet) console.log(logLine);
     }
 
     // Body parser
 
-    const parserType = await options.body({
-      prompt: 'Choose a request parser',
-    });
+    const parserType = await options.body();
     let parser = parsers[parserType];
 
     // Server //
