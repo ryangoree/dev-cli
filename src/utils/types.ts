@@ -1,21 +1,23 @@
-export type IsNever<T> = [T] extends [never] ? true : false;
-
-export type IfElse<
-  TCondition extends boolean,
-  TTrue,
-  TFalse
-> = TCondition extends true ? TTrue : TFalse;
+/**
+ * Get a union of all keys in {@linkcode T} that are required and whose values
+ * are not `never` and not assignable to `undefined`.
+ *
+ * This is the opposite of {@linkcode OptionalValueKey}.
+ */
+export type RequiredValueKey<T> = keyof {
+  [K in keyof T as [T[K]] extends [never]
+    ? never
+    : undefined extends T[K]
+    ? never
+    : K]: unknown;
+};
 
 /**
- * Get a union of all required keys on `T`
+ * Get a union of all keys in {@linkcode T} that are optional or whose values
+ * are `never` or assignable to `undefined`.
+ *
+ * This is the opposite of {@linkcode RequiredValueKey}.
  */
-export type RequiredKey<T> = {
-  [K in keyof T]-?: undefined extends T[K] ? never : K;
-}[keyof T];
-
-/**
- * Get a union of all options keys on `T`
- */
-export type OptionalKey<T> = {
-  [K in keyof T]-?: undefined extends T[K] ? K : never;
-}[keyof T];
+export type OptionalValueKey<T> = keyof {
+  [K in Exclude<keyof T, RequiredValueKey<T>>]: unknown;
+};

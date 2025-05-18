@@ -4,7 +4,7 @@ import { createServer, request } from 'node:http';
 import { config } from 'src/config';
 import { parsers } from 'src/parsers';
 
-const { host, port, proxyPort } = config.data();
+const { host, port, proxyPort } = config.read();
 
 export default command({
   description: 'Start a reverse proxy server to log requests and responses',

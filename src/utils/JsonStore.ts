@@ -1,32 +1,20 @@
-import Ajv, { type ValidateFunction } from 'ajv';
-import type { JSONSchema } from 'json-schema-typed';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import type {
-  IfElse as IfElse,
-  IsNever,
-  OptionalKey,
-  RequiredKey,
-} from 'src/utils/types';
+import { z } from 'zod';
+import { fromError } from 'zod-validation-error';
+import type { OptionalValueKey, RequiredValueKey } from './types.js';
 
-/**
- * An object of JSONSchemas based on `T`
- */
-export type JsonStoreSchema<T = Record<string, unknown>> = {
-  [K in keyof T]-?: JSONSchema<T[K]>;
-};
-
-type DefaultsOption<T extends object> = {
+type DefaultsOption<T extends z.ZodTypeAny> = {
   /**
    * The default values the JSON will be created with and will reset to
    */
-  defaults?: T;
+  defaults?: z.infer<T>;
 };
 
 /**
  * Options for the `JSONStore` class
  */
-export type JsonStoreOptions<T extends object = Record<string, unknown>> = {
+export type JsonStoreOptions<T extends z.ZodTypeAny> = {
   /**
    * The path where the JSON will be saved; *excluding the filename*
    */
@@ -39,98 +27,92 @@ export type JsonStoreOptions<T extends object = Record<string, unknown>> = {
 
   /**
    * A schema to validate the JSON against
-   * @see {@link https://ajv.js.org/json-schema.html}
+   * @see [Zod](https://zod.dev)
    */
-  schema?: JsonStoreSchema<T>;
-} & IfElse<
-  IsNever<RequiredKey<T>>,
-  DefaultsOption<T>,
-  Required<DefaultsOption<T>>
->;
+  schema?: T;
+} & ([RequiredValueKey<z.infer<T>>] extends [never]
+  ? DefaultsOption<T>
+  : Required<DefaultsOption<T>>);
 
 /**
  * Use a JSON file to persist key-value data.
  */
-export class JsonStore<T extends object = Record<string, unknown>> {
+export class JsonStore<T extends z.AnyZodObject> {
   /**
-   * The path to the JSON file for this store
+   * The path to the JSON file for this store.
    */
   readonly path: string;
 
   /**
-   * The default values the JSON will be created with and will reset to
+   * The default values the JSON will be created with and will reset to.
    */
   readonly defaults: JsonStoreOptions<T>['defaults'];
 
-  readonly schema?: JsonStoreSchema<T>;
+  readonly schema: T;
 
   /**
-   * Ensures the JSON matches the schema if provided
+   * Use a JSON file to persist key-value data.
    */
-  #validator?: ValidateFunction<T>;
-
-  /**
-   * Use a JSON file to persist key-value data
-   */
-  constructor({ name, path, defaults, schema }: JsonStoreOptions<T>) {
+  constructor({
+    name,
+    path,
+    defaults,
+    schema = z.object({}).passthrough() as T,
+  }: JsonStoreOptions<T>) {
     if (!name.endsWith('.json')) name += '.json';
     this.path = resolve(process.cwd(), path, name);
-
-    if (schema) {
-      this.schema = schema;
-      const ajv = new Ajv({ allErrors: true, useDefaults: true });
-
-      const storeSchema: JSONSchema = {
-        type: 'object',
-        properties: schema,
-        additionalProperties: false,
-      };
-
-      this.#validator = ajv.compile(storeSchema);
-    }
-
-    this.defaults = defaults || ({} as T);
+    this.schema = schema;
+    this.defaults = defaults || {};
   }
 
   /**
-   * Get the store as an object
+   * Read the file and get the store as an object.
    */
-  data(): T {
-    let raw: string;
-    let data: T;
+  read(): z.infer<T> {
+    type Data = z.infer<T>;
+    let json: string;
 
     try {
-      raw = readFileSync(this.path, 'utf8');
+      json = readFileSync(this.path, 'utf8');
     } catch (err) {
       this.reset();
-      return this.defaults as T;
+      return this.defaults as Data;
     }
 
     try {
-      data = JSON.parse(raw);
+      return this.#parse(JSON.parse(json));
     } catch (err) {
       const backupPath = `${this.path}.bak`;
-      writeFileSync(backupPath, raw);
+      writeFileSync(backupPath, json);
       this.reset();
       console.error(
         `Failed to parse JSON from ${this.path}. The file has been backed up at ${backupPath} and the store has been reset.`
       );
-      return this.defaults as T;
+      return this.defaults as Data;
     }
-
-    this.validate(data);
-    return data;
   }
 
   /**
-   * Set the value for a key or multiple keys in the store
-   * @param key - The key to set or an object of key-value pairs to set
-   * @param value - The value to set the key to if `key` is not an object
+   * Remove the store file.
    */
-  set(values: Partial<T>): void;
-  set<K extends keyof T>(key: K, value: T[K]): void;
-  set<K extends keyof T>(keyOrValues: K | Partial<T>, value?: T[K]): void {
-    const data = this.data();
+  rm(): void {
+    try {
+      rmSync(this.path);
+    } catch (_) {}
+  }
+
+  /**
+   * Set the value for a key or multiple keys in the store.
+   * @param key - The key to set or an object of key-value pairs to set.
+   * @param value - The value to set the key to if `key` is not an object.
+   */
+  set(values: Partial<z.infer<T>>): void;
+  set<K extends keyof z.infer<T>>(key: K, value: z.infer<T>[K]): void;
+  set<K extends keyof z.infer<T>>(
+    keyOrValues: K | Partial<z.infer<T>>,
+    value?: z.infer<T>[K]
+  ): void {
+    const data = this.read();
 
     if (typeof keyOrValues !== 'object' && value) {
       validateSerializable(keyOrValues.toString(), value);
@@ -142,25 +124,33 @@ export class JsonStore<T extends object = Record<string, unknown>> {
       Object.assign(data, keyOrValues);
     }
 
-    this.save(data);
+    this.#save(data);
   }
 
   /**
-   * Get a value from the store by key
-   * @param key - The key to get the value for
-   * @returns The value of `store[key]`
+   * Get a value from the store by key.
+   * @param key - The key to get the value for.
+   * @returns The value of `store[key]`.
    */
-  get<K extends keyof T>(key: K): T[K] {
-    return this.data()[key];
+  get<K extends keyof z.infer<T>>(key: K): z.infer<T>[K];
+  get<K extends keyof z.infer<T>>(...keys: K[]): Pick<z.infer<T>, K>;
+  get<K extends keyof z.infer<T>>(key: K, ...restKeys: K[]) {
+    const data = this.read();
+    return restKeys.length === 0
+      ? data[key]
+      : Object.fromEntries([
+          [key, data[key]],
+          ...Object.entries(data).filter(([k]) => restKeys.includes(k as any)),
+        ]);
   }
 
   /**
-   * Check to see if the store contains all given keys
-   * @param keys - The keys to look for
-   * @returns True if all keys exists, false otherwise
+   * Check to see if the store contains all given keys.
+   * @param keys - The keys to look for.
+   * @returns True if all keys exists, false otherwise.
    */
-  has(...keys: (keyof T)[]): boolean {
-    const data = this.data();
+  has<T extends string>(...keys: T[]): boolean {
+    const data = this.read();
 
     let hasAllKeys = true;
 
@@ -174,12 +164,12 @@ export class JsonStore<T extends object = Record<string, unknown>> {
   }
 
   /**
-   * Delete entries in the store by their keys
-   * @param keys - The keys of the entries to delete
-   * @returns True if all entries were deleted, false otherwise
+   * Delete entries in the store by their keys.
+   * @param keys - The keys of the entries to delete.
+   * @returns True if all entries were deleted, false otherwise.
    */
-  delete(...keys: OptionalKey<T>[]): boolean {
-    const data = this.data();
+  delete(...keys: OptionalValueKey<z.infer<T>>[]): boolean {
+    const data = this.read();
 
     let didDeleteSome = false;
     let didDeleteAll = true;
@@ -194,49 +184,38 @@ export class JsonStore<T extends object = Record<string, unknown>> {
     }
 
     if (didDeleteSome) {
-      this.save(data);
+      this.#save(data);
     }
 
     return didDeleteAll;
   }
 
   /**
-   * Reset config to defaults
+   * Reset config to defaults.
    */
   reset() {
-    this.save(this.defaults as T);
+    this.#save(this.defaults as z.infer<T>);
     return this.defaults;
   }
 
   /**
-   * Throw an error if the data doesn't match the schema
-   * @param data - The data to validate against the schema
+   * Throw an error if the data doesn't match the schema.
+   * @param data - The data to validate against the schema.
    */
-  private validate(data: T | unknown) {
-    if (!this.#validator) return;
-
-    const valid = this.#validator(data);
-
-    if (valid || !this.#validator.errors) return;
-
-    const errors = this.#validator.errors.map(
-      ({ instancePath, message = '', params }) => {
-        if (params.additionalProperty) {
-          return `property \`${params.additionalProperty}\` not allowed`;
-        }
-        return `\`${instancePath.slice(1)}\` ${message}`;
-      }
-    );
-    throw new TypeError(`Schema violation: ${errors.join('; ')}`);
+  #parse(data: unknown): z.infer<T> {
+    try {
+      return this.schema.parse(data);
+    } catch (err) {
+      throw new Error(fromError(err).toString());
+    }
   }
 
   /**
-   * Save the store as JSON
-   * @param data - The store data
+   * Save the store as JSON.
+   * @param data - The store data.
    */
-  private save(data: T) {
-    this.validate(data);
-
+  #save(data: z.infer<T>) {
+    data = this.#parse(data);
     const json = JSON.stringify(data, null, 2);
 
     mkdirSync(dirname(this.path), { recursive: true });
