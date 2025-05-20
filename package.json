@@ -16,15 +16,15 @@
     "@delvtech/drift": "^0.8.4",
     "@delvtech/fixed-point-wasm": "^0.0.8",
     "@delvtech/hyperdrive-artifacts": "^1.0.20",
-    "clide-js": "^0.2.13",
-    "clide-plugin-command-menu": "^0.1.1",
+    "clide-js": "^0.3.0-next.7",
+    "clide-plugin-command-menu": "^0.3.0-next.2",
     "dotenv": "^16.5.0",
     "tsx": "^4.19.4",
-    "zod": "^3.24.4",
+    "zod": "^3.25.7",
     "zod-validation-error": "^3.4.1"
   },
   "devDependencies": {
-    "@types/node": "^22.15.18",
+    "@types/node": "^22.15.19",
     "@types/prompts": "^2.4.9",
     "typescript": "^5.8.3"
   }
