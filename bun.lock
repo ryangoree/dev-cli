@@ -8,7 +8,7 @@
         "@delvtech/drift": "^0.8.4",
         "@delvtech/fixed-point-wasm": "^0.0.8",
         "@delvtech/hyperdrive-artifacts": "^1.0.20",
-        "clide-js": "^0.3.0-next.7",
+        "clide-js": "^0.3.0-next.8",
         "clide-plugin-command-menu": "^0.3.0-next.2",
         "dotenv": "^16.5.0",
         "tsx": "^4.19.4",
@@ -105,7 +105,7 @@
 
     "cfonts": ["cfonts@3.3.0", "", { "dependencies": { "supports-color": "^8", "window-size": "^1" }, "bin": { "cfonts": "bin/index.js" } }, "sha512-RlVxeEw2FXWI5Bs9LD0/Ef3bsQIc9m6lK/DINN20HIW0Y0YHUO2jjy88cot9YKZITiRTCdWzTfLmTyx47HeSLA=="],
 
-    "clide-js": ["clide-js@0.3.0-next.7", "", { "dependencies": { "@types/prompts": "^2.4.9", "cliui": "^8.0.1", "prompts": "^2.4.2", "yargs-parser": "^21.1.1" } }, "sha512-n7+A71C6diohmEas5MTqCQeeQ6disCjv/o52IFwNGfQv0mDDbPdQTuiCyS+Z7ZKwNydXpAFqHDwR6yqF4qU30g=="],
+    "clide-js": ["clide-js@0.3.0-next.8", "", { "dependencies": { "@types/prompts": "^2.4.9", "cliui": "^8.0.1", "prompts": "^2.4.2", "yargs-parser": "^21.1.1" } }, "sha512-sj5+h0HCYIQxjEVTtpiQ/kkeszZpZrKGQqzpgBsp95Nnam5xuqkeNVRjK1hJCuODCBtPzSXfuL6KW9pN4myKWw=="],
 
     "clide-plugin-command-menu": ["clide-plugin-command-menu@0.3.0-next.2", "", { "dependencies": { "cfonts": "^3.3.0", "colors": "^1.4.0" }, "peerDependencies": { "clide-js": "^0.3.0-next.7" } }, "sha512-uT9AOs0fR8UI8WEZttQIZEo10FAcpVhCXhdLfZNhrg2GJXfiZYTlv+wwQZWYk1xPGV9xKEKg6p+j8SkGM/0esQ=="],
 

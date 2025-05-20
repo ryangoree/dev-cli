@@ -5,12 +5,7 @@ import { z } from 'zod';
 // Schema
 const Config = z
   .object({
-    rpcUrls: z.array(
-      z.object({
-        chainId: z.number(),
-        url: z.string(),
-      })
-    ),
+    rpcUrls: z.record(z.coerce.number(), z.string()),
     host: z.string(),
     port: z.number(),
     proxyPort: z.number(),
@@ -19,14 +14,14 @@ const Config = z
 type Config = z.infer<typeof Config>;
 
 // RPC URLs
-const rpcUrls: Config['rpcUrls'] = [];
+const rpcUrls: Config['rpcUrls'] = {};
 const forkUrl1 = process.env.FORK_URL_1;
 if (forkUrl1) {
-  rpcUrls.push({ chainId: 1, url: forkUrl1 });
+  rpcUrls[1] = forkUrl1;
 }
 const forkUrl130 = process.env.FORK_URL_130;
 if (forkUrl130) {
-  rpcUrls.push({ chainId: 130, url: forkUrl130 });
+  rpcUrls[130] = forkUrl130;
 }
 
 // Store

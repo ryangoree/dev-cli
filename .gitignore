@@ -22,7 +22,7 @@ node_modules
 *.tsbuildinfo
 
 # Config
-web3-dev-cli.json
+web3-dev-cli.json*
 
 # Logs
 logs

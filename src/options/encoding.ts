@@ -1,9 +1,10 @@
 import { option } from 'clide-js';
 
 export const encodingOption = option({
-  type: 'encoding',
+  type: 'string',
   alias: ['encoding'],
   description: 'The encoding type.',
+  customType: 'encoding',
   choices: [
     'ascii',
     'base64',
@@ -18,7 +19,7 @@ export const encodingOption = option({
 });
 
 declare module 'clide-js' {
-  interface OptionPrimitiveTypeMap {
+  interface OptionCustomTypeMap {
     encoding: BufferEncoding;
   }
 }
