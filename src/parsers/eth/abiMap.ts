@@ -7,7 +7,7 @@ export type AbiMap = {
 };
 
 const Multicall: AbiMap[number] = {
-  '0xcA11bde05977b3631167028862bE2a173976CA11': async () => {
+  '0xca11bde05977b3631167028862be2a173976ca11': async () => {
     const { IMulticall3 } = await import('./abis/IMulticall3');
     return IMulticall3.abi;
   },
@@ -16,20 +16,27 @@ const Multicall: AbiMap[number] = {
 export const abiMap: AbiMap = {
   1: {
     ...Multicall,
+
+    // DAI
+    '0x6b175474e89094c44da98b954eedeac495271d0f': async () => {
+      const { erc20 } = await import('./abis/erc20');
+      return erc20.abi;
+    },
+
     // Element DAO
-    '0xEaCD577C3F6c44C3ffA398baaD97aE12CDCFed4a': getCoreVotingAbi,
-    '0x40309f197e7f94B555904DF0f788a3F48cF326aB': getCoreVotingAbi,
-    '0xcA870E8aa4FCEa85b5f0c6F4209C8CBA9265B940': async () => {
+    '0xeacd577c3f6c44c3ffa398baad97ae12cdcfed4a': getCoreVotingAbi,
+    '0x40309f197e7f94b555904df0f788a3f48cf326ab': getCoreVotingAbi,
+    '0xca870e8aa4fcea85b5f0c6f4209c8cba9265b940': async () => {
       const { GSCVault } = await import('@delvtech/council-artifacts/GSCVault');
       return GSCVault.abi;
     },
-    '0x02Bd4A3b1b95b01F2Aa61655415A5d3EAAcaafdD': async () => {
+    '0x02bd4a3b1b95b01f2aa61655415a5d3eaacaafdd': async () => {
       const { LockingVault } = await import(
         '@delvtech/council-artifacts/LockingVault'
       );
       return LockingVault.abi;
     },
-    '0x6De73946eab234F1EE61256F10067D713aF0e37A': async () => {
+    '0x6de73946eab234f1ee61256f10067d713af0e37a': async () => {
       const { VestingVault } = await import(
         '@delvtech/council-artifacts/VestingVault'
       );

@@ -68,8 +68,8 @@ export const ethParser: Parser = {
       }
 
       case 'eth_call': {
-        const [{ to, data }] = params;
-        const abi = await abiMap[chainId]?.[to]?.();
+        const [{ to, data, ...restParams }, block] = params;
+        const abi = await abiMap[chainId]?.[to.toLowerCase() as Address]?.();
         let parsedData: any = data;
         let fn: string | undefined;
 
@@ -83,6 +83,7 @@ export const ethParser: Parser = {
           return {
             id,
             method: 'eth_call',
+            to,
             result: fn
               ? {
                   fn,
@@ -90,10 +91,12 @@ export const ethParser: Parser = {
                   return: decodeFunctionReturn({ abi, data: result, fn }),
                 }
               : result,
+            ...restParams,
+            block,
           };
         });
 
-        return { id, method, to, data: parsedData };
+        return { id, method, to, data: parsedData, ...restParams, block };
       }
 
       case 'eth_getLogs': {
@@ -131,7 +134,7 @@ type OpenRpcRequest<
   | {
       id: number;
       method: 'eth_call';
-      params: [{ to: Address; data: Bytes }, HexString];
+      params: [{ to: Address; from: Address; data: Bytes }, HexString];
     }
   | {
       id: number;
