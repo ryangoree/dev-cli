@@ -10,56 +10,55 @@ export default command({
   description: 'Start a reverse proxy server to log requests and responses',
 
   options: {
-    h: {
-      alias: ['host'],
+    host: {
       type: 'string',
       description: 'The target host to proxy requests to',
       default: host,
     },
-    p: {
-      alias: ['port'],
+    port: {
+      alias: ['p'],
       type: 'number',
       description: 'The target port to proxy requests to',
       default: port,
     },
-    P: {
-      alias: ['proxy-port'],
+    'proxy-port': {
+      alias: ['P'],
       type: 'number',
       description: 'The port to listen on',
       default: proxyPort,
     },
-    l: {
-      alias: ['save-logs'],
+    'save-logs': {
+      alias: ['l'],
       type: 'boolean',
       description: 'Save logs to a file',
       default: false,
     },
-    q: {
-      alias: ['quiet'],
+    quiet: {
+      alias: ['q'],
       type: 'boolean',
       description: 'Quiet mode',
       default: false,
     },
-    d: {
-      alias: ['logs-dir'],
+    'logs-dir': {
+      alias: ['d'],
       type: 'string',
       description: 'The directory to save logs to',
       default: 'logs',
     },
-    f: {
-      alias: ['logs-file'],
+    'logs-file': {
+      alias: ['f'],
       type: 'string',
       description: 'The file to save logs to',
       default: 'requests.log',
     },
-    c: {
-      alias: ['clear'],
+    clear: {
+      alias: ['c'],
       type: 'boolean',
       description: 'Clear the log file before starting the server',
       default: false,
     },
-    b: {
-      alias: ['body', 'body-parser'],
+    body: {
+      alias: ['b', 'body-parser'],
       type: 'string',
       description: 'The parser to use for the request body.',
       choices: Object.keys(parsers),
