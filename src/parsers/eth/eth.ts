@@ -87,7 +87,7 @@ export const ethParser: Parser = {
               ? {
                   fn,
                   address: to,
-                  return: decodeFunctionReturn({ abi, data, fn }),
+                  return: decodeFunctionReturn({ abi, data: result, fn }),
                 }
               : result,
           };
