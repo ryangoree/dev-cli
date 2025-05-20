@@ -15,13 +15,11 @@ type Config = z.infer<typeof Config>;
 
 // RPC URLs
 const rpcUrls: Config['rpcUrls'] = {};
-const forkUrl1 = process.env.FORK_URL_1;
-if (forkUrl1) {
-  rpcUrls[1] = forkUrl1;
-}
-const forkUrl130 = process.env.FORK_URL_130;
-if (forkUrl130) {
-  rpcUrls[130] = forkUrl130;
+for (const [key, value] of Object.entries(process.env)) {
+  const [, chainId] = key.match(/^FORK_URL_(\d+)$/) || [];
+  if (chainId && value) {
+    rpcUrls[parseInt(chainId)] = value;
+  }
 }
 
 // Store
