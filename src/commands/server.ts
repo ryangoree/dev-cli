@@ -12,7 +12,7 @@ export default command({
       alias: ['c'],
       type: 'number',
       description: 'Chain ID to run the server on',
-      choices: [31337, ...Object.keys(rpcUrls).map((key) => parseInt(key))],
+      choices: [31337, ...Object.keys(rpcUrls).map(parseInt)],
       required: true,
     },
     host: {

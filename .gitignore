@@ -2,7 +2,7 @@
 .DS_Store
 
 # local
-*.env
+.env
 *.pem
 *.local
 
@@ -26,4 +26,4 @@ web3-dev-cli.json*
 
 # Logs
 logs
-_.log
+*.log

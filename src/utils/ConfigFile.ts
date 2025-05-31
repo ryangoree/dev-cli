@@ -1,72 +1,74 @@
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { z } from 'zod';
-import { fromError } from 'zod-validation-error';
-import type { OptionalValueKey, RequiredValueKey } from './types.js';
+import { getProjectRoot } from 'src/utils/getProjectRoot';
+import type { OptionalValueKey } from 'src/utils/types';
+import { z } from 'zod/v4';
 
-type DefaultsOption<T extends z.ZodTypeAny> = {
+/**
+ * Options for the  creating a new {@linkcode ConfigFile} instance.
+ */
+export type ConfigFileOptions<T extends z.ZodObject> = {
   /**
-   * The default values the JSON will be created with and will reset to
+   * The name to use for the config file. The name will be appended with `.json`
+   * if it doesn't already end with it.
+   * @default 'cli.config.json'
+   */
+  name?: string;
+
+  /**
+   * The path where the config will be saved; *excluding the filename*. Default
+   * to the project root, determined by the presence of a `package.json` file.
+   */
+  path?: string;
+
+  /**
+   * A [Zod](https://zod.dev) schema to validate the config against.
+   */
+  schema?: T;
+} & ({} extends z.infer<T> ? DefaultsOption<T> : Required<DefaultsOption<T>>);
+
+type DefaultsOption<T extends z.ZodObject> = {
+  /**
+   * The default values the config will be created with and will reset to
    */
   defaults?: z.infer<T>;
 };
 
 /**
- * Options for the `JSONStore` class
+ * A JSON file for persisting config data.
  */
-export type JsonStoreOptions<T extends z.ZodTypeAny> = {
+export class ConfigFile<T extends z.ZodObject> {
   /**
-   * The path where the JSON will be saved; *excluding the filename*
-   */
-  path: string;
-
-  /**
-   * The name to use for the `.json` file
-   */
-  name: string;
-
-  /**
-   * A schema to validate the JSON against
-   * @see [Zod](https://zod.dev)
-   */
-  schema?: T;
-} & ([RequiredValueKey<z.infer<T>>] extends [never]
-  ? DefaultsOption<T>
-  : Required<DefaultsOption<T>>);
-
-/**
- * Use a JSON file to persist key-value data.
- */
-export class JsonStore<T extends z.AnyZodObject> {
-  /**
-   * The path to the JSON file for this store.
+   * The path to the config file *including the filename*.
    */
   readonly path: string;
 
   /**
-   * The default values the JSON will be created with and will reset to.
+   * The default values the config will be created with and will reset to.
    */
-  readonly defaults: JsonStoreOptions<T>['defaults'];
-
-  readonly schema: T;
+  readonly defaults: ConfigFileOptions<T>['defaults'];
 
   /**
-   * Use a JSON file to persist key-value data.
+   * The schema to validate the config against.
    */
-  constructor({
-    name,
-    path,
-    defaults,
-    schema = z.object({}).passthrough() as T,
-  }: JsonStoreOptions<T>) {
+  readonly schema: T;
+
+  constructor(
+    {
+      name = 'cli.config.json',
+      path = getProjectRoot(),
+      defaults = {},
+      schema = z.object({}).passthrough() as T,
+    } = {} as ConfigFileOptions<T>
+  ) {
     if (!name.endsWith('.json')) name += '.json';
     this.path = resolve(process.cwd(), path, name);
     this.schema = schema;
-    this.defaults = defaults || {};
+    this.defaults = defaults;
   }
 
   /**
-   * Read the file and get the store as an object.
+   * Read the config file and get the values as an object.
    */
   read(): z.infer<T> {
     type Data = z.infer<T>;
@@ -86,14 +88,14 @@ export class JsonStore<T extends z.AnyZodObject> {
       writeFileSync(backupPath, json);
       this.reset();
       console.error(
-        `Failed to parse JSON from ${this.path}. The file has been backed up at ${backupPath} and the store has been reset.`
+        `Failed to parse config from ${this.path}. The file has been backed up at ${backupPath} and a new config file has been created with the default values.`
       );
       return this.defaults as Data;
     }
   }
 
   /**
-   * Remove the store file.
+   * Delete the config file.
    */
   rm(): void {
     try {
@@ -102,7 +104,7 @@ export class JsonStore<T extends z.AnyZodObject> {
   }
 
   /**
-   * Set the value for a key or multiple keys in the store.
+   * Set the value for a key or multiple keys in the config.
    * @param key - The key to set or an object of key-value pairs to set.
    * @param value - The value to set the key to if `key` is not an object.
    */
@@ -123,14 +125,13 @@ export class JsonStore<T extends z.AnyZodObject> {
       }
       Object.assign(data, keyOrValues);
     }
-
     this.#save(data);
   }
 
   /**
-   * Get a value from the store by key.
+   * Get a value from the config by key.
    * @param key - The key to get the value for.
-   * @returns The value of `store[key]`.
+   * @returns The value of `config[key]`.
    */
   get<K extends keyof z.infer<T>>(key: K): z.infer<T>[K];
   get<K extends keyof z.infer<T>>(...keys: K[]): Pick<z.infer<T>, K>;
@@ -145,7 +146,7 @@ export class JsonStore<T extends z.AnyZodObject> {
   }
 
   /**
-   * Check to see if the store contains all given keys.
+   * Check to see if the config contains all given keys.
    * @param keys - The keys to look for.
    * @returns True if all keys exists, false otherwise.
    */
@@ -164,7 +165,7 @@ export class JsonStore<T extends z.AnyZodObject> {
   }
 
   /**
-   * Delete entries in the store by their keys.
+   * Delete entries in the config by their keys.
    * @param keys - The keys of the entries to delete.
    * @returns True if all entries were deleted, false otherwise.
    */
@@ -200,19 +201,21 @@ export class JsonStore<T extends z.AnyZodObject> {
 
   /**
    * Throw an error if the data doesn't match the schema.
-   * @param data - The data to validate against the schema.
+   * @param data - The data to validate against thdeve schema.
    */
-  #parse(data: unknown): z.infer<T> {
-    try {
-      return this.schema.parse(data);
-    } catch (err) {
-      throw new Error(fromError(err).toString());
+  #parse(data: unknown): z.infer<T> | undefined {
+    const parsed = this.schema.safeParse(data);
+    if (parsed.error) {
+      throw new Error(
+        `Failed to save config. Data does not match schema: ${parsed.error.message}`
+      );
     }
+    return parsed.data;
   }
 
   /**
-   * Save the store as JSON.
-   * @param data - The store data.
+   * Save the config as JSON.
+   * @param data - The config data.
    */
   #save(data: z.infer<T>) {
     data = this.#parse(data);

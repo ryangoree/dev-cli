@@ -1,31 +1,31 @@
-import { getAppRootDir } from 'src/utils/getAppRootDir';
-import { JsonStore } from 'src/utils/JsonStore';
-import { z } from 'zod';
+import { ConfigFile } from 'src/utils/ConfigFile';
+import { getProjectRoot } from 'src/utils/getProjectRoot';
+import { z } from 'zod/v4';
 
-// Schema
 const Config = z
   .object({
-    rpcUrls: z.record(z.coerce.number(), z.string()),
+    rpcUrls: z.record(
+      z.string().refine((s) => parseInt(s)),
+      z.string()
+    ),
     host: z.string(),
-    port: z.number(),
-    proxyPort: z.number(),
+    port: z.coerce.number(),
+    proxyPort: z.coerce.number(),
   })
   .partial();
-type Config = z.infer<typeof Config>;
+export type Config = z.infer<typeof Config>;
+export type ConfigSetting = keyof Config;
+export const configSettings = Object.keys(Config.shape) as ConfigSetting[];
 
-// RPC URLs
 const rpcUrls: Config['rpcUrls'] = {};
 for (const [key, value] of Object.entries(process.env)) {
   const [, chainId] = key.match(/^FORK_URL_(\d+)$/) || [];
-  if (chainId && value) {
-    rpcUrls[parseInt(chainId)] = value;
-  }
+  if (chainId && value) rpcUrls[parseInt(chainId)] = value;
 }
 
-// Store
-export const config = new JsonStore({
+export const config = new ConfigFile({
   name: 'web3-dev-cli',
-  path: getAppRootDir(),
+  path: getProjectRoot(),
   schema: Config,
   defaults: {
     rpcUrls,
