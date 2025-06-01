@@ -1,6 +1,7 @@
 import { command } from 'clide-js';
 import { createWriteStream, writeFileSync, WriteStream } from 'node:fs';
 import { createServer, request } from 'node:http';
+import { inspect } from 'node:util';
 import { config } from 'src/config';
 import { parsers } from 'src/parsers';
 
@@ -154,7 +155,19 @@ export default command({
 });
 
 function formatArgs(...args: any[]) {
-  return args.map(formatArg).join(' ');
+  return args
+    .map((arg) =>
+      inspect(arg, {
+        colors: true,
+        compact: true,
+        depth: null,
+        maxArrayLength: null,
+        maxStringLength: null,
+        numericSeparator: true,
+        sorted: true,
+      })
+    )
+    .join(' ');
 }
 
 function formatArg(arg: any) {

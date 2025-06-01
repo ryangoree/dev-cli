@@ -20,39 +20,39 @@ export const abiMap: AbiMap = {
     // Tokens //
 
     // Liquid staked Ether 2.0 (stETH)
-    '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84': getErc20Abi,
+    '0xae7ab96520de3a18e5e111b5eaab095312d7fe84': getErc20Abi,
     // Dai Stablecoin (DAI)
-    '0x6B175474E89094C44Da98b954EedeAC495271d0F': getErc20Abi,
+    '0x6b175474e89094c44da98b954eedeac495271d0f': getErc20Abi,
     // ether.fi ETH (eETH)
-    '0x35fA164735182de50811E8e2E824cFb9B6118ac2': getErc20Abi,
+    '0x35fa164735182de50811e8e2e824cfb9b6118ac2': getErc20Abi,
     // USD Coin (USDC)
-    '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48': getErc20Abi,
+    '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': getErc20Abi,
     // Rocket Pool ETH (rETH)
-    '0xae78736Cd615f374D3085123A210448E74Fc6393': getErc20Abi,
+    '0xae78736cd615f374d3085123a210448e74fc6393': getErc20Abi,
     // USDA (USDA)
-    '0x0000206329b97DB379d5E1Bf586BbDB969C63274': getErc20Abi,
+    '0x0000206329b97db379d5e1bf586bbdb969c63274': getErc20Abi,
     // Staked USDA (stUSD)
-    '0x0022228a2cc5E7eF0274A7Baa600d44da5aB5776': getErc20Abi,
+    '0x0022228a2cc5e7ef0274a7baa600d44da5ab5776': getErc20Abi,
     // Renzo Restaked ETH (ezETH)
-    '0xbf5495Efe5DB9ce00f80364C8B423567e58d2110': getErc20Abi,
+    '0xbf5495efe5db9ce00f80364c8b423567e58d2110': getErc20Abi,
     // Savings Dai (sDAI)
-    '0x83F20F44975D03b1b09e64809B757c47f942BEeA': getErc20Abi,
+    '0x83f20f44975d03b1b09e64809b757c47f942beea': getErc20Abi,
     // USDS Stablecoin (USDS)
-    '0xdC035D45d973E3EC169d2276DDab16f1e407384F': getErc20Abi,
+    '0xdc035d45d973e3ec169d2276ddab16f1e407384f': getErc20Abi,
     // Savings USDS (sUSDS)
-    '0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD': getErc20Abi,
+    '0xa3931d71877c0e7a3148cb7eb4463524fec27fbd': getErc20Abi,
     // USDe (USDe)
-    '0x4c9EDD5852cd905f086C759E8383e09bff1E68B3': getErc20Abi,
+    '0x4c9edd5852cd905f086c759e8383e09bff1e68b3': getErc20Abi,
     // Staked USDe (sUSDe)
-    '0x9D39A5DE30e57443BfF2A8307A4256c8797A3497': getErc20Abi,
+    '0x9d39a5de30e57443bff2a8307a4256c8797a3497': getErc20Abi,
     // Gyro Dollar (GYD)
-    '0xe07F9D810a48ab5c3c914BA3cA53AF14E4491e8A': getErc20Abi,
+    '0xe07f9d810a48ab5c3c914ba3ca53af14e4491e8a': getErc20Abi,
     // Savings GYD (sGYD)
-    '0xeA50f402653c41cAdbaFD1f788341dB7B7F37816': getErc20Abi,
+    '0xea50f402653c41cadbafd1f788341db7b7f37816': getErc20Abi,
     // Morpho Token (MORPHO)
-    '0x58D97B57BB95320F9a05dC918Aef65434969c2B2': getErc20Abi,
+    '0x58d97b57bb95320f9a05dc918aef65434969c2b2': getErc20Abi,
     // Legacy Morpho Token (MORPHO)
-    '0x9994E35Db50125E0DF82e4c2dde62496CE330999': getErc20Abi,
+    '0x9994e35db50125e0df82e4c2dde62496ce330999': getErc20Abi,
 
     // Element DAO
     '0xeacd577c3f6c44c3ffa398baad97ae12cdcfed4a': getCoreVotingAbi,
@@ -76,19 +76,19 @@ export const abiMap: AbiMap = {
 
     // Hyperdrive
     '0xbe082293b646cb619a638d29e8eff7cf2f46aa3a': getHyperdriveRegistryAbi,
-    '0xd7e470043241C10970953Bd8374ee6238e77D735': getHyperdriveAbi,
-    '0x324395D5d835F84a02A75Aa26814f6fD22F25698': getHyperdriveAbi,
-    '0xca5dB9Bb25D09A9bF3b22360Be3763b5f2d13589': getHyperdriveAbi,
-    '0xd41225855A5c5Ba1C672CcF4d72D1822a5686d30': getHyperdriveAbi,
-    '0xA29A771683b4857bBd16e1e4f27D5B6bfF53209B': getHyperdriveAbi,
-    '0x4c3054e51b46BE3191be9A05e73D73F1a2147854': getHyperdriveAbi,
-    '0x158Ed87D7E529CFE274f3036ade49975Fb10f030': getHyperdriveAbi,
-    '0xc8D47DE20F7053Cc02504600596A647A482Bbc46': getHyperdriveAbi,
-    '0x7548c4F665402BAb3a4298B88527824B7b18Fe27': getHyperdriveAbi,
-    '0xA4090183878d5B7b6Ad104863743dd7E58985321': getHyperdriveAbi,
-    '0x8f2AC104e07d94488a1821E5A393351FCA9239aa': getHyperdriveAbi,
-    '0x05b65FA90AD702e6Fd0C3Bd7c4c9C47BAB2BEa6b': getHyperdriveAbi,
-    '0xf1232Dc21eADAf503D82f1e1361CfF2BBf40394D': getHyperdriveAbi,
+    '0xd7e470043241c10970953bd8374ee6238e77d735': getHyperdriveAbi,
+    '0x324395d5d835f84a02a75aa26814f6fd22f25698': getHyperdriveAbi,
+    '0xca5db9bb25d09a9bf3b22360be3763b5f2d13589': getHyperdriveAbi,
+    '0xd41225855a5c5ba1c672ccf4d72d1822a5686d30': getHyperdriveAbi,
+    '0xa29a771683b4857bbd16e1e4f27d5b6bff53209b': getHyperdriveAbi,
+    '0x4c3054e51b46be3191be9a05e73d73f1a2147854': getHyperdriveAbi,
+    '0x158ed87d7e529cfe274f3036ade49975fb10f030': getHyperdriveAbi,
+    '0xc8d47de20f7053cc02504600596a647a482bbc46': getHyperdriveAbi,
+    '0x7548c4f665402bab3a4298b88527824b7b18fe27': getHyperdriveAbi,
+    '0xa4090183878d5b7b6ad104863743dd7e58985321': getHyperdriveAbi,
+    '0x8f2ac104e07d94488a1821e5a393351fca9239aa': getHyperdriveAbi,
+    '0x05b65fa90ad702e6fd0c3bd7c4c9c47bab2bea6b': getHyperdriveAbi,
+    '0xf1232dc21eadaf503d82f1e1361cff2bbf40394d': getHyperdriveAbi,
   },
 
   // Gnosis
@@ -96,23 +96,23 @@ export const abiMap: AbiMap = {
     // Tokens //
 
     // Wrapped liquid staked Ether 2.0 from Mainnet (wstETH)
-    '0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6': getErc20Abi,
+    '0x6c76971f98945ae98dd7d4dfca8711ebea946ea6': getErc20Abi,
     // Gyro Dollar (GYD)
-    '0xCA5d8F8a8d49439357d3CF46Ca2e720702F132b8': getErc20Abi,
+    '0xca5d8f8a8d49439357d3cf46ca2e720702f132b8': getErc20Abi,
     // Savings GYD (sGYD)
-    '0xeA50f402653c41cAdbaFD1f788341dB7B7F37816': getErc20Abi,
+    '0xea50f402653c41cadbafd1f788341db7b7f37816': getErc20Abi,
     // Wrapped XDAI (WXDAI)
-    '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d': getErc20Abi,
+    '0xe91d153e0b41518a2ce8dd3d7944fa863463a97d': getErc20Abi,
     // Savings xDAI (sDAI)
-    '0xaf204776c7245bF4147c2612BF6e5972Ee483701': getErc20Abi,
+    '0xaf204776c7245bf4147c2612bf6e5972ee483701': getErc20Abi,
     // Hyperdrive Miles (MILES)
-    '0x79385D4B4c531bBbDa25C4cFB749781Bd9E23039': getErc20Abi,
+    '0x79385d4b4c531bbbda25c4cfb749781bd9e23039': getErc20Abi,
 
     // Hyperdrive
     '0x666fa9ef9bca174a042c4c306b23ba8ee0c59666': getHyperdriveRegistryAbi,
-    '0x2f840f1575EE77adAa43415Ac5953F7Db9F8C6ba': getHyperdriveAbi,
-    '0xEe9BFf933aDD313C4289E98dA80fEfbF9d5Cd9Ba': getHyperdriveAbi,
-    '0x9248f874AaA2c53AD9324d7A2D033ea133443874': getHyperdriveAbi,
+    '0x2f840f1575ee77adaa43415ac5953f7db9f8c6ba': getHyperdriveAbi,
+    '0xee9bff933add313c4289e98da80fefbf9d5cd9ba': getHyperdriveAbi,
+    '0x9248f874aaa2c53ad9324d7a2d033ea133443874': getHyperdriveAbi,
   },
 
   // Unichain
@@ -129,41 +129,41 @@ export const abiMap: AbiMap = {
     // Tokens //
 
     // Volatile AMM - USDC/AERO (vAMM-USDC/AERO)
-    '0x6cDcb1C4A4D1C3C6d054b27AC5B77e89eAFb971d': getErc20Abi,
+    '0x6cdcb1c4a4d1c3c6d054b27ac5b77e89eafb971d': getErc20Abi,
     // Coinbase Wrapped Staked ETH (cbETH)
-    '0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22': getErc20Abi,
+    '0x2ae3f1ec7f1f5012cfeab0185bfc7aa3cf0dec22': getErc20Abi,
     // USD Coin (USDC)
-    '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913': getErc20Abi,
+    '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913': getErc20Abi,
     // Moonwell Flagship USDC (mwUSDC)
-    '0xc1256Ae5FF1cf2719D4937adb3bbCCab2E00A2Ca': getErc20Abi,
+    '0xc1256ae5ff1cf2719d4937adb3bbccab2e00a2ca': getErc20Abi,
     // Wrapped Ether (WETH)
     '0x4200000000000000000000000000000000000006': getErc20Abi,
     // Moonwell Flagship ETH (mwETH)
-    '0xa0E430870c4604CcfC7B38Ca7845B1FF653D0ff1': getErc20Abi,
+    '0xa0e430870c4604ccfc7b38ca7845b1ff653d0ff1': getErc20Abi,
     // EURC (EURC)
-    '0x60a3E35Cc302bFA44Cb288Bc5a4F316Fdb1adb42': getErc20Abi,
+    '0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42': getErc20Abi,
     // Moonwell Flagship EURC (mwEURC)
-    '0xf24608E0CCb972b0b0f4A6446a0BBf58c701a026': getErc20Abi,
+    '0xf24608e0ccb972b0b0f4a6446a0bbf58c701a026': getErc20Abi,
     // Num ARS (nARS)
-    '0x5e40f26E89213660514c51Fb61b2d357DBf63C85': getErc20Abi,
+    '0x5e40f26e89213660514c51fb61b2d357dbf63c85': getErc20Abi,
     // Num Yield Bearing Num ARS (snARS)
-    '0xC1F4C75e8925A67BE4F35D6b1c044B5ea8849a58': getErc20Abi,
+    '0xc1f4c75e8925a67be4f35d6b1c044b5ea8849a58': getErc20Abi,
     // WELL (WELL)
-    '0xA88594D404727625A9437C3f886C7643872296AE': getErc20Abi,
+    '0xa88594d404727625a9437c3f886c7643872296ae': getErc20Abi,
     // Aerodrome (AERO)
-    '0x940181a94A35A4569E4529A3CDfB74e38FD98631': getErc20Abi,
+    '0x940181a94a35a4569e4529a3cdfb74e38fd98631': getErc20Abi,
     // Morpho Token (MORPHO)
-    '0xBAa5CC21fd487B8Fcc2F632f3F4E8D37262a0842': getErc20Abi,
+    '0xbaa5cc21fd487b8fcc2f632f3f4e8d37262a0842': getErc20Abi,
 
     // Hyperdrive
-    '0x6668310631Ad5a5ac92dC9549353a5BaaE16C666': getHyperdriveRegistryAbi,
-    '0x2a1ca35Ded36C531F77c614b5AAA0d4F86edbB06': getHyperdriveAbi,
-    '0xFcdaF9A4A731C24ed2E1BFd6FA918d9CF7F50137': getHyperdriveAbi,
-    '0x1243C06146ACa2D4Aaf8F9860F6D8d59d636d46C': getHyperdriveAbi,
-    '0xceD9F810098f8329472AEFbaa1112534E96A5c7b': getHyperdriveAbi,
-    '0x9bAdB6A21FbA04EE94fde3E85F7d170E90394c89': getHyperdriveAbi,
-    '0xD9b66D9a819B36ECEfC26B043eF3B422d5A6123a': getHyperdriveAbi,
-    '0xdd8E1B14A04cbdD98dfcAF3F0Db84A80Bfb8FC25': getHyperdriveAbi,
+    '0x6668310631ad5a5ac92dc9549353a5baae16c666': getHyperdriveRegistryAbi,
+    '0x2a1ca35ded36c531f77c614b5aaa0d4f86edbb06': getHyperdriveAbi,
+    '0xfcdaf9a4a731c24ed2e1bfd6fa918d9cf7f50137': getHyperdriveAbi,
+    '0x1243c06146aca2d4aaf8f9860f6d8d59d636d46c': getHyperdriveAbi,
+    '0xced9f810098f8329472aefbaa1112534e96a5c7b': getHyperdriveAbi,
+    '0x9badb6a21fba04ee94fde3e85f7d170e90394c89': getHyperdriveAbi,
+    '0xd9b66d9a819b36ecefc26b043ef3b422d5a6123a': getHyperdriveAbi,
+    '0xdd8e1b14a04cbdd98dfcaf3f0db84a80bfb8fc25': getHyperdriveAbi,
   },
 
   // Linea
@@ -171,14 +171,14 @@ export const abiMap: AbiMap = {
     // Tokens //
 
     // Renzo Restaked ETH (ezETH)
-    '0x2416092f143378750bb29b79eD961ab195CcEea5': getErc20Abi,
+    '0x2416092f143378750bb29b79ed961ab195cceea5': getErc20Abi,
     // rsETHWrapper (wrsETH)
-    '0xD2671165570f41BBB3B0097893300b6EB6101E6C': getErc20Abi,
+    '0xd2671165570f41bbb3b0097893300b6eb6101e6c': getErc20Abi,
 
     // Hyperdrive
-    '0x6668310631Ad5a5ac92dC9549353a5BaaE16C666': getHyperdriveRegistryAbi,
-    '0xB56e0Bf37c4747AbbC3aA9B8084B0d9b9A336777': getHyperdriveAbi,
-    '0x1cB0E96C07910fee9a22607bb9228c73848903a3': getHyperdriveAbi,
+    '0x6668310631ad5a5ac92dc9549353a5baae16c666': getHyperdriveRegistryAbi,
+    '0xb56e0bf37c4747abbc3aa9b8084b0d9b9a336777': getHyperdriveAbi,
+    '0x1cb0e96c07910fee9a22607bb9228c73848903a3': getHyperdriveAbi,
   },
 
   // Sepolia
@@ -186,28 +186,28 @@ export const abiMap: AbiMap = {
     // Tokens //
 
     // RocketPool ETH (RETH)
-    '0x4713c86d0e467064A4CD2a974b7fDA79F7efc338': getErc20Abi,
+    '0x4713c86d0e467064a4cd2a974b7fda79f7efc338': getErc20Abi,
     // Liquid staked Ether 2.0 (stETH)
-    '0x7c485f458aD1F32FF66BC45306fd32974C963c32': getErc20Abi,
+    '0x7c485f458ad1f32ff66bc45306fd32974c963c32': getErc20Abi,
     // DAI (DAI)
-    '0xe8b99bF4249D90C0eB900651F92485F7160A0513': getErc20Abi,
+    '0xe8b99bf4249d90c0eb900651f92485f7160a0513': getErc20Abi,
     // Savings DAI (SDAI)
-    '0xFF8AFe6bb92eB9D8e80c607bbe5bbb78BF1201Df': getErc20Abi,
+    '0xff8afe6bb92eb9d8e80c607bbe5bbb78bf1201df': getErc20Abi,
     // Renzo ezETH (ezETH)
-    '0xDD0D63E304F3D9d9E54d8945bE95011867c80E4f': getErc20Abi,
+    '0xdd0d63e304f3d9d9e54d8945be95011867c80e4f': getErc20Abi,
 
     // Hyperdrive
     '0x03f6554299acf544ac646305800f57db544b837a': getHyperdriveRegistryAbi,
-    '0xC7cb718D5f1c5B4839045aed2620FABc1cF13CD3': getHyperdriveAbi,
-    '0xfA8dB2177F1e1eE4327c9b9d1389b1173bC5A5e2': getHyperdriveAbi,
-    '0x54A93937EE00838d659795b9bbbe904a00DdF278': getHyperdriveAbi,
-    '0x87621c072B1967730b70F4c0536D739c2053d34c': getHyperdriveAbi,
-    '0x8DFc7c74331162FE2FCc2Ee83173d806E4Ca2CE8': getHyperdriveAbi,
-    '0x1F5625B9d2B1c02b06bcA6F95BEE71b9700Bf95D': getHyperdriveAbi,
-    '0xb59b98209e82Fc0549Bb2572809B7CD10289Bb91': getHyperdriveAbi,
-    '0x51C054F75b2c4b53E8E5114430C3ded4572473D8': getHyperdriveAbi,
-    '0xE352F4D16C7Ee4162d1aa54b77A15d4DA8f35f4b': getHyperdriveAbi,
-    '0x0399BBA8DE5959007148a95ADaaD04eA3172513E': getHyperdriveAbi,
+    '0xc7cb718d5f1c5b4839045aed2620fabc1cf13cd3': getHyperdriveAbi,
+    '0xfa8db2177f1e1ee4327c9b9d1389b1173bc5a5e2': getHyperdriveAbi,
+    '0x54a93937ee00838d659795b9bbbe904a00ddf278': getHyperdriveAbi,
+    '0x87621c072b1967730b70f4c0536d739c2053d34c': getHyperdriveAbi,
+    '0x8dfc7c74331162fe2fcc2ee83173d806e4ca2ce8': getHyperdriveAbi,
+    '0x1f5625b9d2b1c02b06bca6f95bee71b9700bf95d': getHyperdriveAbi,
+    '0xb59b98209e82fc0549bb2572809b7cd10289bb91': getHyperdriveAbi,
+    '0x51c054f75b2c4b53e8e5114430c3ded4572473d8': getHyperdriveAbi,
+    '0xe352f4d16c7ee4162d1aa54b77a15d4da8f35f4b': getHyperdriveAbi,
+    '0x0399bba8de5959007148a95adaad04ea3172513e': getHyperdriveAbi,
   },
 };
 
