@@ -48,9 +48,13 @@ export const ethParser: Parser = {
     const { id, method, result, params } = payload;
 
     if (result) {
-      const handler = responseHandlerMap.get(id);
       const response = { id, method, result };
-      return handler?.(response) || response;
+      const handler = responseHandlerMap.get(id);
+      if (handler) {
+        responseHandlerMap.delete(id);
+        return handler(response);
+      }
+      return response;
     }
 
     switch (method) {
